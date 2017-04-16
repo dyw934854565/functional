@@ -20,7 +20,7 @@ const compose = (first, ...last) => (...initArgv) =>
 
 `last.reduce`循环所有参数中传入函数（即fn1,fn2,fn3...）。
 
-`first(...initArgv)`执行第一个函数（即为fn1），返回结果即为`composed`（不明白reduce的同学参考ecmascript5 reduce api）
+`first(...initArgv)`执行第一个函数（即为fn1），返回结果即为`composed`（参考es5 reduce api）
 
 `func(composed)`composed作为参数又传入到下一个func（即为fn2）函数中，执行fn2，fn2返回后又为composed，composed作为参数传给fn3，最后返回fn3的返回值。
 
