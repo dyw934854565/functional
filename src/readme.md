@@ -23,8 +23,7 @@ func函数执行时候，分别传入`ajax,data => { console.log(data)},'ajax请
 紧接着ajax的传入参数，cb就是`handle(callback)(...initArgs)`中的callback，也就是func函数执行中传入的`data => { console.log(data)}`,初始化参数就是`'ajax请求参数'`。
 ajax执行完毕后会执行cb，也就是callback，把服务端返回数据data传给cb，也就执行了也就是callback函数。
 
-*所以，遇到`const a => b => c => d => b+c+d`的同学，不要头晕，只需要按照声明的顺序传入参数即可，`a(b)(c)(d)`*
-
+**所以，遇到`const a => b => c => d => b+c+d`的同学，不要头晕，只需要按照声明的顺序传入参数即可，`a(b)(c)(d)`**
 
 ## 1. compose
 依次执行参数中的函数数组，把每个函数的返回值传入下个函数的第一个参数中，返回最后一个函数的返回值。
