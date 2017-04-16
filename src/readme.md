@@ -300,7 +300,7 @@ walk(data, 'children', (item, index, parentPath) => {
 })
 ```
 
-## middleware
+## 6. middleware
 
 concatMiddlewares: 用来连接函数列表与函数中间件列表。
 
@@ -375,3 +375,7 @@ console.log(close['logout']('logout参数'))
 console.log(close['edit']('edit参数'))
 console.log(close['post']('post参数'))
 ```
+
+## 7. async
+
+具体代码请参考 `./7.async`
