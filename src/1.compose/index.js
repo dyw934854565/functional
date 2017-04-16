@@ -1,2 +1,2 @@
-const compose = (first, ...last) => (...initArgv) => last.reduce((composed, func) => func(composed), first(...initArgv))
+const compose = (first, ...last) => (...initArgs) => last.reduce((composed, func) => func(composed), first(...initArgs))
 module.exports = compose
