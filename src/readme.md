@@ -17,7 +17,7 @@ func(ajax)(data => { console.log(data)})('ajax请求参数')
 
 这里有两个函数，func是高阶套高阶。而ajax就是个普通的高阶函数。
 
-func函数执行时候，分别传入`ajax,data => { console.log(data)},'ajax请求参数'。也就是说，执行一次返回第二个高阶函数`callback => (...initArgs) => handle(callback)(...initArgs)`，
+func函数执行时候，分别传入`ajax,data => { console.log(data)},'ajax请求参数'`。也就是说，执行一次返回第二个高阶函数`callback => (...initArgs) => handle(callback)(...initArgs)`，
 再传入callback执行返回`(...initArgs) => handle(callback)(...initArgs)`,再传入initArgs执行`handle(callback)(...initArgs)`并返回结果，也就是ajax函数开始执行。
 
 紧接着ajax的传入参数，cb就是`handle(callback)(...initArgs)`中的callback，也就是func函数执行中传入的`data => { console.log(data)}`,初始化参数就是`'ajax请求参数'`。
@@ -280,4 +280,98 @@ function pass() {
 }
 
 console.log(some(validateNull, validateNumber, pass)('55'))
+```
+
+## 5. walk
+这是一个可以追踪路径的迭代json函数。
+
+用来深度便利对象，并且可以随意设置当前级别的路径。
+
+low b代码千千万，不写了，直接来段nb代码:
+```
+const data = require('./data')
+const walk = require('../')
+walk(data, 'children', (item, index, parentPath) => {
+  const relativePath = [`${item.type}(${index})`, item.bind]
+  const path = parentPath.concat(relativePath)
+  console.log('当前组件相对路径', relativePath.filter(p => p !== undefined).join('.'))
+  console.log('当前组件绝对路径', path.filter(p => p !== undefined).join('.'))
+  return relativePath
+})
+```
+
+## middleware
+
+concatMiddlewares: 用来连接函数列表与函数中间件列表。
+
+createMiddleware: 用来创建中间件
+
+### 用途
+
+需求如下，我们有这些函数:login,logout,load,edit,save,post。
+
+有些函数（如edit, save）需要用户登录才能执行。
+
+有些函数（如post）需要打印日志。
+
+我们不希望破坏函数的内部构造，那么，中间件登场了。
+
+我们可以这样构建函数列表 {login,logout,load}, loginMiddleware: {edit,save}, logMiddleware:{post}。最后将它们concat到一起。
+
+low b代码有很多种实现方式，略过。直接来段nb代码:
+```
+const { concatMiddlewares, createMiddleware } = require('../')
+const listeners = require('./listeners')
+
+// 用来执行函数之前打印
+const logHandle = (listener, key) =>
+  (...args) => {
+    console.log(`${key}函数执行`)
+    return listener(...args)
+  }
+
+const logListeners = {
+  'post': (...args) => {
+    console.log('post', args)
+    return '发送成功'
+  },
+}
+
+// 用来验证函数是否执行
+const loginHandle = (listener, key) =>
+  (...args) => {
+    if (global.cookie.login !== true) {
+      return '用户未登录'
+    }
+
+    return listener(...args)
+  }
+
+const loginListeners = {
+  'edit': (...args) => {
+    console.log('打印edit参数', args)
+    return '编辑成功'
+  },
+  'save': (...args) => {
+    console.log('save', args)
+    return '保存成功'
+  },
+}
+
+/*
+ * @params：
+ * listeners: 原始事件列表
+ * middlewares: 事件中间件列表
+ * */
+const close = concatMiddlewares(listeners, [
+  createMiddleware(logHandle, logListeners),
+  createMiddleware(loginHandle, loginListeners),
+])
+
+console.log(close['login']('login参数'))
+console.log(close['edit']('edit参数'))
+console.log(close['save']('save参数'))
+console.log(close['logout']('logout参数'))
+console.log(close['edit']('edit参数'))
+console.log(close['post']('post参数'))
 ```
