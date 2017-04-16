@@ -40,4 +40,4 @@ const createMiddleware = (handle, listeners) => originListeners => {
 ```
 
 ### 例子
-1. 使用middle(./examples/test.js)
+1. 使用middleware(./examples/test.js)
