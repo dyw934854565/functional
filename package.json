@@ -1,0 +1,17 @@
+{
+  "name": "functional",
+  "version": "1.0.0",
+  "description": "1. 快速入手函数式编程   2. 包括两部分：函数操作与函数式编程。函数操作列出多函数如何拼装/拆解/重构等复杂操作，函数式编程介绍高阶函数/变量作用于以及闭包/构建函数/科利华/递归/纯函数/不可变函数/函数流以及mixins等函数式中的概念以及实现。   3. 项目包括<Javascript函数式编程>中所有例子，均为精心制作，网页上可以看到源码与效果，便于理解。",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "underscore": "^1.8.3"
+  }
+}
