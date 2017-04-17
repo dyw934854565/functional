@@ -20,6 +20,6 @@
   1. [重构][2]
   2. [函数式编程][3]
 
-  [1]: https://github.com/antgod/functional/src
+  [1]: https://github.com/antgod/functional/tree/master/src
   [2]: https://github.com/antgod/refactor
   [3]: https://github.com/antgod/functional
