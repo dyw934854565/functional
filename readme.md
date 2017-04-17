@@ -11,13 +11,18 @@
   2. `函数操作`每个目录（如1.compose）都是独立功能，有完成的源码文件(index.js)，说明文档（readme.md），例子文件夹(examples)。
   3. `函数式编程`源码位于stack目录内
 
+  ### 文档
+  1. `函数操作`[1]
+
   ### 更多功能
   本项目目标快速入手函数式编程，其他功能请参考。
 
-  1. [重构][1]
-  2. [函数式编程][2]
-    [1]: https://github.com/antgod/refactor
-    [2]: https://github.com/antgod/functional
+  1. [重构][2]
+  2. [函数式编程][3]
+
+    [1]: https://github.com/antgod/functional/src
+    [2]: https://github.com/antgod/refactor
+    [3]: https://github.com/antgod/functional
 
 
 
