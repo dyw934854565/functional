@@ -1,17 +1,17 @@
 const switcher = require('../')
 
-function clearMemory(){
-  console.log('clearMemory', arguments)
+function clearMemory(...args) {
+  console.log('clearMemory', ...args)
   return '内存清除完毕'
 }
 
-function clearCache(){
-  console.log('clearCache', arguments)
+function clearCache(...args) {
+  console.log('clearCache', ...args)
   return '缓存清除完毕'
 }
 
-function clearBuffer () {
-  console.log('clearBuffer', arguments)
+function clearBuffer(...args) {
+  console.log('clearBuffer', ...args)
   return '缓冲清除完毕'
 }
 
@@ -21,4 +21,4 @@ const clear = switcher({
   buffer: clearBuffer,
 })
 
-console.log(clear('memory', 1,2,3))
+console.log(clear('memory', 1, 2, 3))

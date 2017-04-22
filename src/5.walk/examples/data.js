@@ -9,9 +9,10 @@ const data = {
       children: [{
         type: 'Button',
         bind: 'button',
-      }]
+      }],
     }],
   }],
 }
 
 module.exports = data
+

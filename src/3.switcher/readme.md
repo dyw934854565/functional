@@ -12,7 +12,7 @@ switcher({case1: fn1, case2: fn2, case3: fn3})('case1', ...args)
 
 ### 源码
 ```
-const switcher = map => (type, ...args) => map[type] ? map[type](...args) : undefined
+const switcher = map => (type, ...args) => { return map[type] !== undefined ? map[type](...args) : undefined }
 ```
 
 ### 例子

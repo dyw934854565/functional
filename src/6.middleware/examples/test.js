@@ -9,14 +9,14 @@ const logHandle = (listener, key) =>
   }
 
 const logListeners = {
-  'post': (...args) => {
+  post: (...args) => {
     console.log('post', args)
     return '发送成功'
   },
 }
 
 // 用来验证函数是否执行
-const loginHandle = (listener, key) =>
+const loginHandle = listener =>
   (...args) => {
     if (global.cookie.login !== true) {
       return '用户未登录'
@@ -26,11 +26,11 @@ const loginHandle = (listener, key) =>
   }
 
 const loginListeners = {
-  'edit': (...args) => {
+  edit: (...args) => {
     console.log('打印edit参数', args)
     return '编辑成功'
   },
-  'save': (...args) => {
+  save: (...args) => {
     console.log('save', args)
     return '保存成功'
   },
@@ -46,9 +46,9 @@ const close = concatMiddlewares(listeners, [
   createMiddleware(loginHandle, loginListeners),
 ])
 
-console.log(close['login']('login参数'))
-console.log(close['edit']('edit参数'))
-console.log(close['save']('save参数'))
-console.log(close['logout']('logout参数'))
-console.log(close['edit']('edit参数'))
-console.log(close['post']('post参数'))
+console.log(close.login('login参数'))
+console.log(close.edit('edit参数'))
+console.log(close.save('save参数'))
+console.log(close.logout('logout参数'))
+console.log(close.edit('edit参数'))
+console.log(close.post('post参数'))

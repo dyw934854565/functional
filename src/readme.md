@@ -26,11 +26,17 @@ ajax执行完毕后会执行cb，也就是callback，把服务端返回数据dat
 **所以，遇到`const a => b => c => d => b+c+d`的同学，不要头晕，只需要按照声明的顺序传入参数即可，`a(b)(c)(d)`**
 
 ## 1. compose
+**源码**
+```
+const compose = (first, ...last) => (...initArgs) => 
+    last.reduce((composed, func) =>
+        func(composed), first(...initArgs))
+```
 依次执行参数中的函数数组，把每个函数的返回值传入下个函数的第一个参数中，返回最后一个函数的返回值。
 
 用来拆解大函数，函数内部过程执行大量逻辑，每段逻辑均有关联，比如依赖上一段逻辑的返回。
 
-low b:
+**low**:
 ```
 const { trust } = require('../../../common/util')
 
@@ -67,7 +73,7 @@ function enter(input) {
 console.log(enter({username: 'aa', password: 'bb'}))
 ```
 
-nb:
+**high**
 ```
 const { trust } = require('../../../common/util')
 const compose = require('../')
@@ -91,11 +97,17 @@ console.log(enter({username: 'aa', password: 'bb'}))
 ```
 
 ## 2. concat
+**源码**
+```
+const concat = (...funcs) => (...args) => 
+    funcs.reduce((returns, func) => 
+        [...returns, func(...args)], [])
+```
 依次执行参数中的函数数组，每个函数的参数相同，返回每个函数的返回值数组。
 
 用来拆解大函数，函数内部过程执行大量逻辑，每段逻辑没有任何关联。
 
-low b:
+**low**
 ```
 function before(...args){
   console.log(...args)
@@ -124,7 +136,7 @@ console.log(handle({
 }))
 ```
 
-nb:
+**high**
 ```
 const concat = require('../')
 
@@ -153,11 +165,16 @@ console.log(handle({
 ```
 
 ## 3. switcher
+**源码**
+```
+const switcher = map => (type, ...args) => 
+    { return map[type] !== undefined ? map[type](...args) : undefined }
+```
 根据参数配置类型执行配置表中的函数，返回函数执行的返回值
 
 消除函数内if,switch.把逻辑判断改成配置表。
 
-low b:
+**low**:
 ```
 function clearMemory(){
   console.log('clearMemory', arguments)
@@ -190,7 +207,7 @@ function clear(type, ...args) {
 console.log(clear('memory', 1,2,3))
 ```
 
-nb:
+**high**
 ```
 const switcher = require('../')
 
@@ -218,12 +235,18 @@ const clear = switcher({
 console.log(clear('memory', 1,2,3))
 ```
 
-## 4. switcher
+## 4. some
+**源码**
+```
+const some = (...funs) => (...args) => funs.reduce((last, fun) => {
+  return last === undefined ? fun(...args) : last
+}, undefined)
+```
 依次执行参数中的函数数组，返回第一个有返回值的函数的返回值。
 
 重构同一函数内有大量校验函数的代码。
 
-low b:
+**low**:
 ```
 function validateNull(obj) {
   if (!obj) {
@@ -259,7 +282,7 @@ function validator(obj) {
 console.log(validator('55'))
 ```
 
-nb:
+**high**
 ```
 const some = require('../')
 
@@ -283,11 +306,21 @@ console.log(some(validateNull, validateNumber, pass)('55'))
 ```
 
 ## 5. walk
+**源码**
+```
+const walk = (obj, childrenName, handler, i = 0, parentPath = []) => {
+  const customPath = handler(obj, i, parentPath)
+  if (obj[childrenName] !== undefined && Array.isArray(obj[childrenName])) {
+    obj[childrenName].forEach((child, index) =>
+        walk(child, childrenName, handler, index, parentPath.concat(customPath)))
+  }
+}
+```
 这是一个可以追踪路径的迭代json函数。
 
 用来深度便利对象，并且可以随意设置当前级别的路径。
 
-low b代码千千万，不写了，直接来段nb代码:
+**high**:
 ```
 const data = require('./data')
 const walk = require('../')
@@ -301,6 +334,18 @@ walk(data, 'children', (item, index, parentPath) => {
 ```
 
 ## 6. middleware
+**源码**
+```
+const concatMiddlewares = (defaultListeners, middlewares) =>
+    middlewares.reduce((listeners, middleware) => middleware(listeners), defaultListeners)
+
+const createMiddleware = (handle, listeners) => (originListeners) => {
+  return Object.keys(listeners).reduce((originListener, key) => {
+    originListener[key] = handle(listeners[key], key)
+    return originListener
+  }, originListeners)
+}
+```
 
 concatMiddlewares: 用来连接函数列表与函数中间件列表。
 
@@ -318,7 +363,7 @@ createMiddleware: 用来创建中间件
 
 我们可以这样构建函数列表 {login,logout,load}, loginMiddleware: {edit,save}, logMiddleware:{post}。最后将它们concat到一起。
 
-low b代码有很多种实现方式，略过。直接来段nb代码:
+**high**:
 ```
 const { concatMiddlewares, createMiddleware } = require('../')
 const listeners = require('./listeners')

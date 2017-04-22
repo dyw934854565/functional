@@ -5,7 +5,7 @@ function validateNull(obj) {
 }
 
 function validateNumber(obj) {
-  if (parseInt(obj) != obj) {
+  if (parseInt(obj, 10) !== obj) {
     return '年龄必须为自然数'
   }
 }
@@ -14,15 +14,14 @@ function pass() {
   return '验证通过'
 }
 
-
 function validator(obj) {
   const r1 = validateNull(obj)
-  if(r1) {
+  if (r1) {
     return r1
   }
 
   const r2 = validateNumber(obj)
-  if(r2) {
+  if (r2) {
     return r2
   }
 

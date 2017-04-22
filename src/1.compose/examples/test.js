@@ -8,6 +8,8 @@ const checkUserInput = ({ username, password }) => {
   }
   return { username, password }
 }
+
+/* eslint-disable */
 const checkUserInfo = ({ username, password }) => ({ status: 'normal', id: '100' })
 const analyzeTocken = ({ status, id }) => ({ status: 'normal', id: '100', name: 'lhj', tocken: 'zHcuqhrehduqwexxx' })
 const login = user => ({ redirectUrl: 'http://www.taobao.com/' })
@@ -16,4 +18,4 @@ const redirect = feedback => ({ code: '10000' })
 // 重构后代码
 const enter = compose(checkUserInput, checkUserInfo, analyzeTocken, login, redirect)
 
-console.log(enter({username: 'aa', password: 'bb'}))
+console.log(enter({ username: 'aa', password: 'bb' }))

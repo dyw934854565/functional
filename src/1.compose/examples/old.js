@@ -7,6 +7,7 @@ const checkUserInput = ({ username, password }) => {
   }
   return { username, password }
 }
+/* eslint-disable */
 const checkUserInfo = ({ username, password }) => ({ status: 'normal', id: '100' })
 const analyzeTocken = ({ status, id }) => ({ status: 'normal', id: '100', name: 'lhj', tocken: 'zHcuqhrehduqwexxx' })
 const login = user => ({ redirectUrl: 'http://www.taobao.com/' })

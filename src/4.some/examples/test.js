@@ -7,7 +7,7 @@ function validateNull(obj) {
 }
 
 function validateNumber(obj) {
-  if (parseInt(obj) != obj) {
+  if (parseInt(obj, 10) !== obj) {
     return '年龄必须为自然数'
   }
 }
