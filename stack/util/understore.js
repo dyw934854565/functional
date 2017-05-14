@@ -2,6 +2,15 @@ const keys = Object.keys
 
 class _ {
 
+  /* 新增函数 */
+  static last(datas) {
+    return datas[datas.length - 1]
+  }
+
+  static bindAll(obj, ...funs) {
+    return funs.map(fun => obj[fun] = obj[fun].bind(obj))
+  }
+
   /* 链式操作 */
   static then(callback) {
     this.next = callback(this.data)
