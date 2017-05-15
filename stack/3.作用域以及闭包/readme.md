@@ -54,7 +54,7 @@ console.log(g())
 所以，我们需要在调用函数前进行绑定。
 ```
 const bindAll = (obj, ...funs) => {
-return funs.map(fun => obj[fun] = obj[fun].bind(obj))
+  return funs.map(fun => obj[fun] = obj[fun].bind(obj))
 }
 
 const target = {
