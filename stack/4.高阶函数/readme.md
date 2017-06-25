@@ -1,5 +1,7 @@
 ### 以其他函数作为参数的函数
 
+*本章的所有代码，均在https://github.com/antgod/functional/tree/master/stack/4.%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0*
+
 #### 关于传递函数的思考
 
 - max
