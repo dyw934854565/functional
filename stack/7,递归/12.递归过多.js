@@ -34,8 +34,8 @@ function odd1(n) {
   }
 }
 
-function trampoline(fun, times) {
-  let result = fun.apply(fun, [times])
+function trampoline(fun, ...args) {
+  let result = fun.apply(fun, args)
   while (typeof result === 'function') {
     result = result()
   }
@@ -44,7 +44,15 @@ function trampoline(fun, times) {
 
 console.time('a')
 console.log(trampoline(odd1, 1000000))
-console.time('a')
+console.timeEnd('a')
+
+const oddFinal = (n) => {
+  return trampoline(odd1, n)
+}
+
+console.time('b')
+console.log(oddFinal(1000000))
+console.timeEnd('b')
 
 /*
 function even2(n) {

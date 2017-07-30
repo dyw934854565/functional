@@ -1,9 +1,4 @@
-const generator1 = (init, prefix) => {
-  let counter = init
-  return (pre = prefix) => {
-    return [pre, counter++].join('')
-  }
-}
+const generator1 = (counter, prefix) => (pre = prefix) => [pre, counter++].join('')
 
 const g1 = generator1(0, 'prefix')
 

@@ -1,16 +1,14 @@
-const nums = [1, 2, 3, null, 5]
+const nums = [1, 3, 5, null, 7]
 
-const fillnull = (handle, ...args) => (...argvs) => handle(...argvs.map((argv, i) => argv || args[i]))
+const fillnull = (handle, ...defaults) => (...args) => handle(...args.map((arg, i) => arg || defaults[i]))
 
-console.log(nums.reduce(fillnull((total, n) => {
-  return total * n
-}, 1, 1)))
+console.log(nums.reduce(fillnull((total, n) => total * n, 1, 1), 1))
 
 const identity = prop => prop
 
-const defaults = d => (o, k) => {
-  const val = fillnull(identity, d[k])
-  return o && val(o[k])
+const defaults = defaultValue => (item, key) => {
+  const val = fillnull(identity, defaultValue[key])
+  return item && val(item[key])
 }
 
 const ages = [{ age: 100 }, { age: 120 }, { age: 150 }, { }, { age: 30 }]

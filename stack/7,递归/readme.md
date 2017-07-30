@@ -38,5 +38,3 @@ console.log(sumAdd(arr))
 需要特别强调，累加器是正序执行。也是说，累加器会先运行最外层递归函数，这样拼接时候，就可以把result.concat(current)。
 
 而自吸收则不同，自吸收是最内层先执行计算出结果，再和最外层累加，拼接时候永远是[current].concat(result)
-
-还有一点，
