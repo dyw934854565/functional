@@ -1,8 +1,4 @@
-const composer = (...handles) => (target, ...args) => {
-  return handles.reduce((last, handle) => {
-    return handle.apply(last, [last, ...args])
-  }, target)
-}
+const compose = (first, ...last) => (...initArgs) => last.reduce((composed, func) => func(composed), first(...initArgs))
 
 // test
 const stringReverse = (s) => {
@@ -21,7 +17,7 @@ const invoker = name => (target, ...args) => {
 
 const fix = (prefix, suffix) => (value) => `${prefix}${value}${suffix}`
 
-const str = composer(invoker('toString'), stringReverse, fix('pre-', '-end'))
+const str = compose(invoker('toString'), stringReverse, fix('pre-', '-end'))
 
 console.log(str(true))
 console.log(str('abc'))
